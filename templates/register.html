@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+h2{text-align: center;}
+body {font-family: Arial, Helvetica, sans-serif;
+
+
+  }
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+/* Add a background color when the inputs get focus */
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #141A77;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+
+}
+
+button:hover {
+  opacity: 0.8;
+  color: navy;
+}
+/* Extra styles for the cancel button */
+.cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.container {
+  padding: 16px;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)}
+  to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+h2, p{color:#141A77}
+
+.wrapper {
+    text-align: center;
+
+}
+
+.button {
+  margin:auto;
+  display: flex;
+ justify-content: center;
+ align-items: center;
+ margin: center
+
+}
+</style>
+</head>
+
+<form class="modal-content" action="{{ url_for('register') }}" method="post">
+  <div class="container form-group">
+    <h1>Sign Up</h1>
+    {% with messages = get_flashed_messages() %}
+   {% if messages %}
+     <ul class="flashes">
+        {% for message in messages %}
+         <div class="message_flash" style="color:red">{{ message }}</div>
+        {% endfor %}
+    </ul>
+  {% endif %}
+ {% endwith %}
+    <p>Please fill in this form to create an account. You must sign up with you Oxford email address, as theOXREVIEW is only for students.</p>
+
+    <label for="input-email"><b>Email</b></label>
+    <input type="email" class="form-control" id="input-email" name="email" placeholder="Oxford email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.ox.ac.uk" required>
+<hr>
+    <label for="input-email"><b>Subject</b></label>
+    <input type="text" class="form-control" id="input-subject" name="subject" placeholder="The subject you study" required>
+<hr>
+    <div class="form-group">
+        <label for="input-college">Choose your College</label>
+        <select id="input-college" class="form-control" name="college">
+          <option selected>Balliol</option>
+          <option>Blackfriars</option>
+          <option>Brasenose</option>
+          <option>Campion Hall</option>
+          <option>Christ Church</option>
+          <option>Corpus Christi</option>
+          <option>Exeter</option>
+          <option>Green Templeton</option>
+          <option>Harris Manchester</option>
+          <option>Hertford</option>
+          <option>Jesus</option>
+          <option>Keble</option>
+          <option>Kellogg</option>
+          <option>Lady Margaret Hall</option>
+          <option>Lincoln</option>
+          <option>Linacre</option>
+          <option>Magdalen</option>
+          <option>Mansfield</option>
+          <option>Merton</option>
+          <option>New</option>
+          <option>Nuffield</option>
+          <option>Oriel</option>
+          <option>Pembroke</option>
+          <option>Queen's</option>
+          <option>Regent's Park</option>
+          <option>Somerville</option>
+          <option>St Anne's</option>
+          <option>St Antony's</option>
+          <option>St Benet's</option>
+          <option>St Cathrine's</option>
+          <option>St Cross</option>
+          <option>St Edmund Hall</option>
+          <option>St Hilda's</option>
+          <option>St Hugh's</option>
+          <option>St John's</option>
+          <option>St Peter's</option>
+          <option>St Stephen's House</option>
+          <option>Trinity</option>
+          <option>University</option>
+          <option>Wadham</option>
+          <option>Wolfson</option>
+          <option>Worcester</option>
+          <option>Wycliffe Hall</option>
+        </select>
+    </div>
+<hr>
+<div class="form-group">
+    <label for="input-matriculation">Year of matriculation</label>
+    <select id="input-matriculation" class="form-control" name="matriculation_year">
+      <option selected>2020</option>
+      <option>2019</option>
+      <option>2018</option>
+      <option>2017</option>
+      <option>2016</option>
+      <option>2015</option>
+      <option>2014</option>
+      <option>2013</option>
+      <option>2012</option>
+      <option>2011</option>
+    </select>
+</div>
+<hr>
+    <label for="input-password1"><b>Password</b></label>
+    <input type="password" class="form-control" id="input-password1" name="pass1" placeholder="Enter password" required oninput="validatePassLength(this)">
+    <small class="form-text text-muted">Your password should be at least 6 symbols long.</small>
+<hr>
+    <label for="input-password2"><b>Repeat Password</b></label>
+    <input type="password" class="form-control" id="input-password2" name="pass2" placeholder="Enter password again" required oninput="validatePasses(this)">
+
+<!--      <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p> -->
+
+    <div class="clearfix">
+      <button type="button" class="cancelbtn"><a href="{{ url_for('index') }}" >Cancel</a></button>
+      <button type="submit" class="signupbtn">Sign Up</button>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+  function validatePassLength(input) {
+    if (input.value.length < 6) {
+      input.setCustomValidity("Your password should be at least 6 symbols long.");
+    }
+    else {
+      input.setCustomValidity("");
+    }
+  }
+
+  function validatePasses(input2) {
+    var input1 = document.getElementById("input-password1");
+    if (input1.value !== input2.value) {
+      input2.setCustomValidity("Passwords mismatch.");
+    }
+    else {
+      input2.setCustomValidity("");
+    }
+  }
+  </script>

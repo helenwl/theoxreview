@@ -1,0 +1,90 @@
+<style media="screen">
+</style>
+{% extends "layout.html" %}
+{% block title %}Posted Questions{% endblock %}
+<!-- Page content -->
+
+{% block main %}
+    <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+      <h2 class="w3-wide">Posted Questions</h2>
+  <p> Search for keywords of a question you might have to see if any similar questions have been asked before.</p>
+
+    <form action="{{ url_for('question') }}" method="get">
+      <div class="form-group container" style="margin-right:auto;
+    margin-left:auto;">
+        <label for="input-query">Search query</label>
+        <input type="search" class="form-control" id="input-query" name="query" placeholder="Enter keyword" required>
+      </div>
+      <button type="submit" class="w3-button navy w3-section btn btn-primary">
+        <i class="fa fa-paper-plane"></i> Search</button>
+    </form>
+    {% if has_query %}
+      {% if result %}
+        <table class="w3-table-all table-striped body container">
+          <thead class="thead-light">
+            <tr class="w3-text-black">
+              <th scope="col">Category</th>
+              <th scope="col">Question</th>
+              <th scope="col">User details</th>
+            </tr>
+          </thead>
+          <tbody class="w3-text-black">
+          {% for item in result %}
+            <tr class="table">
+              <th scope="row">{{ item.category }}</th>
+              <td><a href="{{ url_for('answers', question_id=item.id) }}">{{ item.question }}</a></td>
+              <td>{{ item.user_details }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+      <h4 style="color:#141A77">No questions have been found that match your query. Why not ask it via our Post a Question link below?
+      </h4>
+
+      {% endif %}
+    {% endif %}
+    {% if result3 %}
+      <table class="w3-table-all table-striped body container">
+        <thead class="thead-light">
+          <tr class="w3-text-black">
+            <th scope="col">Category</th>
+            <th scope="col">Question</th>
+            <th scope="col">User details</th>
+          </tr>
+        </thead>
+
+        <tbody class="w3-text-black">
+        {% for item in result3 %}
+          <tr class="table">
+            <th scope="row">{{ item.category }}</th>
+            <td><a href="{{ url_for('answers', question_id=item.id) }}">{{ item.question }}</a></td>
+            <td>{{ item.user_details }}</td>
+          </tr>
+        </tbody>
+      </table>
+            {% endfor %}
+    {% else %}
+    {% endif %}
+      {% if allresults %}
+    <table class="w3-table-all table-striped body container">
+      <thead class="thead-light">
+        <tr class="w3-text-black">
+          <th scope="col">Category</th>
+          <th scope="col">Question</th>
+          <th scope="col">User details</th>
+        </tr>
+      </thead>
+            <tbody class="w3-text-black">
+{% for item in allresults %}
+
+        <tr class="table">
+          <th scope="row">{{ item.category }}</th>
+          <td><a href="{{ url_for('answers', question_id=item.id) }}">{{ item.question }}</a></td>
+          <td>{{ item.user_details }}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    {% endif %}
+    {% endblock %}

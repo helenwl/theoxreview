@@ -1,0 +1,151 @@
+<style media="screen">
+</style>
+{% extends "layout.html" %}
+{% block title %}Subject{% endblock %}
+<!-- Page content -->
+
+{% block main %}
+    <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+      <h2 class="w3-wide">SUBJECTS: search</h2>
+  <p> Use the search bar to search. Enter: your lecture course name, your subject name, or a lecturer's name. Please
+ capitalise all search terms.</p>
+
+    <form action="{{ url_for('subject') }}" method="get">
+      <div class="form-group container" style="margin-right:auto;
+    margin-left:auto;">
+        <label for="input-query">Search query</label>
+        <input type="search" class="form-control" id="input-query" name="query" placeholder="Enter keyword" required>
+      </div>
+      <button type="submit" class="w3-button navy w3-section btn btn-primary">
+        <i class="fa fa-paper-plane"></i> Search</button>
+    </form>
+    {% if has_query %}
+      {% if result %}
+        <table class="w3-table-all table-striped body container">
+          <thead class="thead-light">
+            <tr class="w3-text-black">
+              <th scope="col">Subject</th>
+              <th scope="col">Lecture Course Name</th>
+              <th scope="col">Lecturer</th>
+              <th scope="col">Year of Study</th>
+            </tr>
+          </thead>
+          <tbody class="w3-text-black">
+          {% for item in result %}
+            <tr class="table">
+              <th scope="row">{{ item.subject }}</th>
+              <td><a href="{{ url_for('course', course_id=item.id) }}">{{ item.course_name }}</a></td>
+              <td>{{ item.lecturer }}</td>
+              <td class ="w3-right">{{ item.year_of_study }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+      <h4 style="color:#141A77">No lecture courses have been found that match your query. This probably means
+        the course you're searching for hasn't been reviewed yet. If you want to add a lecture course to the
+        list, then add an entry to our database. You'll be the first person to review the course.
+      </h4>
+      <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+          <h3 class="w3-wide w3-center navy">Add a lecture course to our database</h3>
+      </div>
+      <div class="w3-container w3-padding-64 w3-theme-l5" id="contact">
+
+
+            <form class="w3-container w3-card-4 w3-padding-16 w3-white w3-center" action="{{ url_for('addsubject')}}" method="post">
+
+              <div class="w3-section form-group" >
+                <label for="input-review">Lecture Course Information</label>
+                <input class="w3-input form-control" id="input-name" type="text" name="course_name" rows="5" required placeholder="Name of lecture series" required>
+              </div>
+              <div class="form-group">
+                  <label for="input-rating">Choose the subject</label>
+                  <select id="input-rating" class="form-control" name="subject">
+                    <option selected>Biochemistry</option>
+                    <option>Biomedical Sciences</option>
+                    <option>History</option>
+                    <option>English</option>
+                    <option>Maths</option>
+                    <option>Materials Science</option>
+                    <option>Physics</option>
+                    <option>Chemistry</option>
+                    <option>Geography</option>
+                    <option>Psychology</option>
+                    <option>Classics</option>
+
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="input-lecturer">Name of lecturer(s)</label>
+                <input class="w3-input form-control" id="input-lecturer" type="text" name="lecturer" required placeholder="Name of lecturer for this course." required>
+              </div>
+              <div class="form-group">
+                  <label for="input-year">Year of the course this lecture is delivered in</label>
+                  <select id="input-year" class="form-control" name="year_of_study">
+                    <option selected>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+
+                  </select>
+              </div>
+
+            <button type="submit" class="w3-button w3-right w3-theme navy" style="color:white">Send</button>
+            </form>
+          </div>
+      </div>
+      {% endif %}
+    {% endif %}
+    {% if result2 %}
+      <table class="w3-table-all table-striped body container">
+        <thead class="thead-light">
+          <tr class="w3-text-black">
+            <th scope="col">Subject</th>
+            <th scope="col">Lecture Course Name</th>
+            <th scope="col">Lecturer</th>
+            <th scope="col">Year of Study</th>
+          </tr>
+        </thead>
+        <tbody class="w3-text-black">
+        {% for item in result2 %}
+          <tr class="table">
+            <th scope="row">{{ item.subject }}</th>
+            <td><a href="{{ url_for('course', course_id=item.id) }}">{{ item.course_name }}</a></td>
+            <td>{{ item.lecturer }}</td>
+            <td class ="w3-right">{{ item.year_of_study }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+    {% endif %}
+    {% if allsubjects %}
+  <table class="w3-table-all table-striped body container">
+    <thead class="thead-light">
+      <tr class="w3-text-black">
+        <th scope="col">Subject</th>
+        <th scope="col">Lecture Course Name</th>
+        <th scope="col">Lecturer</th>
+        <th scope="col">Year of Study</th>
+      </tr>
+    </thead>
+        <tbody class="w3-text-black">
+{% for item in allsubjects %}
+      <tr class="table">
+        <th scope="row">{{ item.subject }}</th>
+        <td><a href="{{ url_for('course', course_id=item.id) }}">{{ item.course_name }}</a></td>
+        <td>{{ item.lecturer }}</td>
+        <td class ="w3-right">{{ item.year_of_study }}</td>
+      </tr>
+  {% endfor %}
+</tbody>
+</table>
+  {% endif %}
+    {% endblock %}
+
+  <!-- The Contact Section -->
+
+
+<!-- End Page Content -->

@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+<style media="screen">
+  table{  left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) }
+  .container4 {
+    height: 10em;
+    position: relative }
+.container4 p {
+    margin: 0;
+    background: white;
+    position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) }
+</style>
+
+
+
+{% block title %}Answers{% endblock %}
+
+{% block main %}
+<header class="w3-container w3-center w3-padding-32">
+<h1 style="color:#141A77" class="w3-padding-64"> Question category: {{ question_name.category }}</h1>
+</header>
+<table class=" w3-centered w3-table-all container4" style="border: 3px solid black; color:black;">
+<tr>
+  <th class="col-md-3 w3-padding" >Question</th>
+  <th class="col-md-3 w3-padding" >Question Category</th>
+    <th class="col-md-3 w3-padding" >User details</th>
+</tr>
+<tr>
+  <td class="col-md-9 w3-padding">{{ question_name.question }}</td>
+    <td class="col-md-9 w3-padding">{{ question_name.category }}</td>
+  <td class="col-md-9 w3-padding">{{ question_name.user_details }}</td>
+
+</tr>
+
+
+
+</table>
+
+<h4 class="w3-center">Answers</h4>
+{% if answers %}
+<table class="table w3-table-all w3-centered w3-hoverable navy w3-padding-64" style="color:black">
+    <thead class="thead-light">
+      <tr class="w3-indigo">
+        <th scope="col">Answer</th>
+        <th scope="col">Date of Response</th>
+          <th scope="col">User Subject</th>
+            <th scope="col">User Year of Matriculation</th>
+      </tr>
+      <tbody>
+      {% for answer in answers %}
+        <tr>
+
+          <td>{{ answer.answer }}</td>
+          <td>{{ answer.answered_on }}</td>
+          <td>{{ answer.subject }}</td>
+          <td> {{ answer.matriculation_year }}</td>
+
+
+        </tr>
+      {% endfor %}
+      </tbody>
+    </thead>
+</table>
+{% else %}
+<p class="w3-center" style="color:black">
+    <strong>There are no answers to this question yet, can you help out?</strong>
+</p>
+{% endif %}
+<div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+    <h3 class="w3-wide w3-center navy">Your Answer to this question</h3>
+</div>
+<div class="w3-container w3-theme-l5" id="contact">
+      <p class="w3-padding">Thanks so much for taking the time out to answer this question, not only for the person who asked this question,
+      but for the community here on OXREVIEW-- since loads of people may have similar questions! </p>
+
+      <form class="w3-container w3-card-4 w3-padding-16 w3-white w3-center" action="{{ url_for('answers', question_id=question_name.id) }}" method="post">
+
+      <div class="w3-section form-group" >
+        <label for="input-answer">Your Answer</label>
+        <input class="w3-input form-control" id="input-answer" type="text" name="answer" rows="5" required placeholder="Type your answer here. It can be as long or as short as you want. (but maybe try to be helpful). The subject you study and the year you're in will be posted alongside your answer." required>
+      </div>
+
+      <button type="submit" class="w3-button w3-right w3-theme navy" style="color:white">Send</button>
+      </form>
+    </div>
+
+</div>
+
+{% endblock %}
+<script>
+var dt = new Date();
+document.getElementById("datetime").innerHTML = dt.toLocaleString();
+</script>

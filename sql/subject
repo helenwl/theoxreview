@@ -1,0 +1,7 @@
+CREATE TABLE subjects (
+  id SERIAL PRIMARY KEY,
+  subject VARCHAR NOT NULL,
+  course_name VARCHAR NOT NULL,
+  lecturer VARCHAR NOT NULL,
+  year_of_study INTEGER NOT NULL
+);

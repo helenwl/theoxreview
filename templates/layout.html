@@ -56,10 +56,11 @@ h2, p{color:#141A77}
 
 <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
 <div id="navDemo" class="w3-bar-block navy w3-hide w3-hide-large w3-hide-medium" style="margin-top:46px">
-  <a href="#band" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Basic Info</a>
-  <a href="#tour" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Academic</a>
-  <a href="#contact" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Extra-Curricular</a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Post a question</a>
+<!--  <a href="#band" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Basic Info</a> -->
+  <a href="{{ url_for('subject') }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Subject Lecture Course Review</a>
+  <a href="{{ url_for('departments') }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">General Department Reviews</a>
+<!--  <a href="#contact" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Extra-Curricular</a> -->
+  <a href="#question" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Post a question</a>
 </div>
 
 

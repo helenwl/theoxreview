@@ -247,8 +247,7 @@ def answers(question_id):
         #gr_data=gr_data)
         elif request.method == 'POST':
         # If method is POST, save new review in database
-            if session.get('user_id') is None:
-                return('Please log in to access this webpage')
+
                 answer = request.form.get('answer')
                 answered_on=datetime.datetime.now().strftime("%d-%b-%Y at %H:%M")
         #SELECT answered_on, TO_CHAR(NOW() :: TIMESTAMP, 'hh:mm dd-mm-yy'); come back to this!! this code should

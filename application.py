@@ -106,10 +106,14 @@ def logout():
 # Search route for subject courses
 @app.route('/subject/', methods=['POST', 'GET'])
 def subject():
+<<<<<<< HEAD
     if session.get('user_id') is None:
         flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
         return render_template('Login.html', user_id=session.get('user_id'))
     else:
+=======
+
+>>>>>>> cad4f2722c36f2c8e287271115b236b1ba9e3d7d
             if 'query' in request.args:
         # If 'query' is in request arguments, do the search and show results
                 query = request.args['query']
@@ -125,10 +129,15 @@ def subject():
 
 @app.route('/addsubject/', methods=['POST', 'GET'])
 def addsubject():
+<<<<<<< HEAD
     if session.get('user_id') is None:
         flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
         return render_template('Login.html', user_id=session.get('user_id'))
     else:
+=======
+
+
+>>>>>>> cad4f2722c36f2c8e287271115b236b1ba9e3d7d
         if request.method == 'POST':
 
             logged_in = session.get('user_id') is not None
@@ -149,10 +158,14 @@ def addsubject():
 #post a question and add it to the question table
 @app.route('/postquestion/', methods=['POST', 'GET'])
 def postquestion():
+<<<<<<< HEAD
     if session.get('user_id') is None:
         flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
         return render_template('Login.html', user_id=session.get('user_id'))
     else:
+=======
+
+>>>>>>> cad4f2722c36f2c8e287271115b236b1ba9e3d7d
         if request.method == 'POST':
 
             logged_in = session.get('user_id') is not None
@@ -177,10 +190,14 @@ def postquestion():
 # search for a question/
 @app.route('/question/', methods=['POST', 'GET'])
 def question():
+<<<<<<< HEAD
     if session.get('user_id') is None:
         flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
         return render_template('Login.html', user_id=session.get('user_id'))
     else:
+=======
+
+>>>>>>> cad4f2722c36f2c8e287271115b236b1ba9e3d7d
         if 'query' in request.args:
         # If 'query' is in request arguments, do the search and show results
             logged_in = session.get('user_id') is not None
@@ -206,10 +223,14 @@ def question():
 
 @app.route('/course/<int:course_id>/', methods=['POST', 'GET'])
 def course(course_id):
+<<<<<<< HEAD
     if session.get('user_id') is None:
         flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
         return render_template('Login.html', user_id=session.get('user_id'))
     else:
+=======
+
+>>>>>>> cad4f2722c36f2c8e287271115b236b1ba9e3d7d
         if request.method == 'GET':
         # If method is GET, get all reviews for this book from database
             logged_in = session.get('user_id') is not None
@@ -236,10 +257,14 @@ def course(course_id):
 
 @app.route('/answers/<int:question_id>/', methods=['POST', 'GET'])
 def answers(question_id):
+<<<<<<< HEAD
     if session.get('user_id') is None:
         flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
         return render_template('Login.html', user_id=session.get('user_id'))
     else:
+=======
+
+>>>>>>> cad4f2722c36f2c8e287271115b236b1ba9e3d7d
         if request.method == 'GET':
         # If method is GET, get all reviews for this book from database
             logged_in = session.get('user_id') is not None
@@ -268,10 +293,14 @@ def answers(question_id):
 
 @app.route('/departments/', methods=['POST', 'GET'])
 def departments():
+<<<<<<< HEAD
     if session.get('user_id') is None:
         flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
         return render_template('Login.html', user_id=session.get('user_id'))
     else:
+=======
+
+>>>>>>> cad4f2722c36f2c8e287271115b236b1ba9e3d7d
         if 'query' in request.args:
         # If 'query' is in request arguments, do the search and show results
             query = request.args['query']
@@ -293,10 +322,14 @@ def departments():
 
 @app.route('/departmentreviews/<int:department_id>/', methods=['POST', 'GET'])
 def departmentreviews(department_id):
+<<<<<<< HEAD
     if session.get('user_id') is None:
         flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
         return render_template('Login.html', user_id=session.get('user_id'))
     else:
+=======
+
+>>>>>>> cad4f2722c36f2c8e287271115b236b1ba9e3d7d
         if request.method == 'GET':
         # If method is GET, get all reviews for this book from database
             logged_in = session.get('user_id') is not None
@@ -313,12 +346,21 @@ def departmentreviews(department_id):
         elif request.method == 'POST':
         # If method is POST, save new review in database
 
+<<<<<<< HEAD
             departmentreview = request.form.get('departmentreview')
             departmentreviewdate = request.form.get('departmentreviewdate')
             rating= request.form.get('rating')
             departmentreview_on=datetime.datetime.now().strftime("%d-%b-%Y at %H:%M")
 
             db.execute('INSERT INTO departmentreviews (departmentreview, departmentreviewdate, rating, user_id, department_id, departmentreview_on) VALUES (:departmentreview, :departmentreviewdate, :rating, :user_id, :department_id, :departmentreview_on)',
+=======
+                departmentreview = request.form.get('departmentreview')
+                departmentreviewdate = request.form.get('departmentreviewdate')
+                rating= request.form.get('rating')
+                departmentreview_on=datetime.datetime.now().strftime("%d-%b-%Y at %H:%M")
+
+                db.execute('INSERT INTO departmentreviews (departmentreview, departmentreviewdate, rating, user_id, department_id, departmentreview_on) VALUES (:departmentreview, :departmentreviewdate, :rating, :user_id, :department_id, :departmentreview_on)',
+>>>>>>> cad4f2722c36f2c8e287271115b236b1ba9e3d7d
                    {'departmentreview': departmentreview, 'departmentreviewdate': departmentreviewdate, 'rating': rating, 'user_id': session.get('user_id'), 'department_id': department_id, 'departmentreview_on': departmentreview_on})
             db.commit()
 

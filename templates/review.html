@@ -23,7 +23,7 @@
 <header class="w3-container w3-center w3-padding-32">
 <h1 style="color:#141A77" class="w3-padding-64">Lecture Course Info: {{ course_name.subject }}</h1>
 </header>
-<table class=" w3-centered w3-table-all container4" style="border: 3px solid black; color:black;">
+<table class=" w3-centered w3-table-all container4" style="color:black; margin:0 auto; width:80%; border: 3px solid black">
 <tr>
   <th class="col-md-3 w3-padding" >Lecture Course Name:</th>
   <th class="col-md-3 w3-padding">Lecturer:</th>
@@ -46,13 +46,14 @@
 
 <h4 class="w3-center">Reviews</h4>
 {% if reviews %}
-<table class="table w3-table-all w3-centered w3-hoverable navy w3-padding-64" style="color:black">
+<table class="table w3-table-all w3-centered w3-hoverable navy w3-padding-64" style="color:black; margin:0 auto; width:80%">
     <thead class="thead-light">
       <tr class="w3-indigo">
         <th scope="col">Rating</th>
         <th scope="col">Review</th>
         <th scope="col">Academic Year of review</th>
         <th scope="col">Review submitted on</th>
+        <th scope="col">User info</th>
       </tr>
       <tbody>
       {% for review in reviews %}
@@ -62,6 +63,7 @@
           <td>{{ review.review }}</td>
           <td>{{ review.reviewdate }}</td>
           <td>{{ review.review_on }}</td>
+          <td>{{ review.college }}, {{ review.matriculation_year }}</td>
         </tr>
       {% endfor %}
       </tbody>

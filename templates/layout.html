@@ -12,6 +12,7 @@ color:white;}
 h2, p{color:#141A77}
 .mySlides {display: none}
 .navy {background-color:#141A77}
+
 </style>
 <body>
 
@@ -55,12 +56,13 @@ h2, p{color:#141A77}
 
 
 <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
-<div id="navDemo" class="w3-bar-block navy w3-hide w3-hide-large w3-hide-medium" style="margin-top:46px">
+<div id="navDemo" class="w3-bar-block navy w3-hide w3-hide-large w3-hide-medium">
 <!--  <a href="#band" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Basic Info</a> -->
   <a href="{{ url_for('subject') }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Subject Lecture Course Review</a>
   <a href="{{ url_for('departments') }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">General Department Reviews</a>
 <!--  <a href="#contact" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Extra-Curricular</a> -->
   <a href="#question" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Post a question</a>
+  <a href="{{ url_for('logout') }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Logout</a>
 </div>
 
 
@@ -98,9 +100,6 @@ h2, p{color:#141A77}
                   </select>
               </div>
             </div>
-            <div class="form-group">
-              <input class="w3-input w3-border" type="text" placeholder="Your Subject, Year, and College" required name="user_details">
-            </div>
           <div class="form-group">
             <input class="w3-input w3-border" type="text" placeholder="Question" required name="question">
           </div>
@@ -120,8 +119,8 @@ h2, p{color:#141A77}
 <a href="https://www.facebook.com/Oxreview-108267097523831/">
     <i class="fa fa-facebook-official w3-hover-opacity"></i>
   </a>
-  <p> please excuse any errors, oxreview is made by students. we'd really appreciate if you emailed any errors to:
-  theoxreview@gmail.com </p>
+  <h3>we'd really appreciate if you emailed any errors (glitches or information errors) to:
+  theoxreview@gmail.com </h3>
 </footer>
 </body>
 </html>

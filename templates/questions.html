@@ -26,14 +26,16 @@
               <th scope="col">Category</th>
               <th scope="col">Question</th>
               <th scope="col">User details</th>
+              <th scope="col">Time</th>
             </tr>
           </thead>
           <tbody class="w3-text-black">
-          {% for item in result %}
+          {% for result in result %}
             <tr class="table">
-              <th scope="row">{{ item.category }}</th>
-              <td><a href="{{ url_for('answers', question_id=item.id) }}">{{ item.question }}</a></td>
-              <td>{{ item.user_details }}</td>
+              <th scope="row">{{ result.category }}</th>
+              <td><a href="{{ url_for('answers', question_id=result.id) }}">{{ result.question }}</a></td>
+              <td>{{ result.subject }}, {{ result.college }}, {{ result.matriculation_year }}</td>
+              <td>{{ result.asked_on }}</td>
             </tr>
           {% endfor %}
           </tbody>
@@ -51,15 +53,17 @@
             <th scope="col">Category</th>
             <th scope="col">Question</th>
             <th scope="col">User details</th>
+            <th scope="col">Time</th>
           </tr>
         </thead>
 
         <tbody class="w3-text-black">
-        {% for item in result3 %}
+        {% for result3 in result3 %}
           <tr class="table">
-            <th scope="row">{{ item.category }}</th>
-            <td><a href="{{ url_for('answers', question_id=item.id) }}">{{ item.question }}</a></td>
-            <td>{{ item.user_details }}</td>
+            <th scope="row">{{ result3.category }}</th>
+            <td><a href="{{ url_for('answers', question_id=result3.id) }}">{{ result3.question }}</a></td>
+            <td>{{ result3.subject }}, {{ result3.college }}, {{ result3.matriculation_year }}</td>
+            <td>{{ result3.asked_on }}</td>
           </tr>
         </tbody>
       </table>
@@ -73,15 +77,17 @@
           <th scope="col">Category</th>
           <th scope="col">Question</th>
           <th scope="col">User details</th>
+          <th scope="col">Time</th>
         </tr>
       </thead>
             <tbody class="w3-text-black">
-{% for item in allresults %}
+{% for allresults in allresults %}
 
         <tr class="table">
-          <th scope="row">{{ item.category }}</th>
-          <td><a href="{{ url_for('answers', question_id=item.id) }}">{{ item.question }}</a></td>
-          <td>{{ item.user_details }}</td>
+          <th scope="row">{{ allresults.category }}</th>
+          <td><a href="{{ url_for('answers', question_id=allresults.id) }}">{{ allresults.question }}</a></td>
+          <td>{{ allresults.subject }}, {{ allresults.college }}, {{ allresults.matriculation_year }}</td>
+          <td>{{ allresults.asked_on }}</td>
         </tr>
     {% endfor %}
   </tbody>

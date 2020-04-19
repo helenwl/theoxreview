@@ -91,7 +91,8 @@ def login():
 @app.route('/landingpage/')
 def landingpage():
     if session.get('user_id') is None:
-        return('Please log in to access this webpage')
+        flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
+        return render_template('Login.html', user_id=session.get('user_id'))
     else:
         logged_in = session.get('user_id') is not None
         return render_template('landingpage.html', user_id=session.get('user_id'), logged_in=logged_in)
@@ -105,26 +106,28 @@ def logout():
 # Search route for subject courses
 @app.route('/subject/', methods=['POST', 'GET'])
 def subject():
-        if session.get('user_id') is None:
-            return('Please log in to access this webpage')
-        else:
+    if session.get('user_id') is None:
+        flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
+        return render_template('Login.html', user_id=session.get('user_id'))
+    else:
             if 'query' in request.args:
         # If 'query' is in request arguments, do the search and show results
                 query = request.args['query']
 
-                result = db.execute('SELECT * FROM subjects WHERE subject ILIKE :pattern OR course_name ILIKE :pattern OR lecturer ILIKE :pattern ORDER BY subject',
+                result = db.execute('SELECT * FROM subjects WHERE subject ILIKE :pattern OR course_name ILIKE :pattern OR lecturer ILIKE :pattern ORDER BY id DESC',
                             {'pattern': f'%{query}%'}).fetchall()
 
                 return render_template('subject.html', has_query=True, result=result, user_id=session.get('user_id'))
             else:
         # If not, just show the search form
-                allsubjects = db.execute('SELECT * FROM subjects ORDER BY subject').fetchall()
+                allsubjects = db.execute('SELECT * FROM subjects ORDER BY id DESC').fetchall()
                 return render_template('subject.html', has_query=False, allsubjects=allsubjects, user_id=session.get('user_id'))
 
 @app.route('/addsubject/', methods=['POST', 'GET'])
 def addsubject():
     if session.get('user_id') is None:
-            return('Please log in to access this webpage')
+        flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
+        return render_template('Login.html', user_id=session.get('user_id'))
     else:
         if request.method == 'POST':
 
@@ -136,7 +139,7 @@ def addsubject():
             year_of_study= request.form.get('year_of_study')
             addedsubject_on=datetime.datetime.now().strftime("%d-%b-%Y at %H:%M")
 
-            db.execute('INSERT INTO subjects (subject, course_name, lecturer, year_of_study, addedsubject_on) VALUES (:subject, :course_name, :lecturer, :year_of_study, addedsubject_on)',
+            db.execute('INSERT INTO subjects (subject, course_name, lecturer, year_of_study, addedsubject_on) VALUES (:subject, :course_name, :lecturer, :year_of_study, :addedsubject_on)',
                             {'subject': subject, 'course_name': course_name, 'lecturer': lecturer, 'year_of_study': year_of_study, 'addedsubject_on':addedsubject_on})
             db.commit()
             result2 = db.execute('SELECT * FROM subjects WHERE subjects.course_name= :course_name', {'course_name': course_name}
@@ -147,48 +150,55 @@ def addsubject():
 @app.route('/postquestion/', methods=['POST', 'GET'])
 def postquestion():
     if session.get('user_id') is None:
-            return('Please log in to access this webpage')
+        flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
+        return render_template('Login.html', user_id=session.get('user_id'))
     else:
         if request.method == 'POST':
 
             logged_in = session.get('user_id') is not None
 
             category= request.form.get('category')
-            user_details= request.form.get('user_details')
             question= request.form.get('question')
             asked_on=datetime.datetime.now().strftime("%d-%b-%Y at %H:%M")
 
 
-            db.execute('INSERT INTO questions (category, user_details, question, asked_on) VALUES (:category, :user_details, :question, :asked_on)',
-                            {'category': category, 'user_details': user_details, 'question': question, 'asked_on':asked_on})
+            db.execute('INSERT INTO questions (category, question, asked_on, user_id) VALUES (:category, :question, :asked_on, :user_id)',
+                            {'category': category, 'question': question, 'asked_on':asked_on, 'user_id':session.get('user_id')})
             db.commit()
-            result3 = db.execute('SELECT * FROM questions WHERE questions.question= :question', {'question': question}
-                            ).fetchall()
 
-            return render_template('questions.html', result3=result3, user_id=session.get('user_id'))
+
+        #    result3 = db.execute('SELECT * FROM questions WHERE questions.question= :question', {'question': question}
+        #                    ).fetchall()
+            result3 = db.execute('SELECT question, category, asked_on, college, matriculation_year, subject, users.id FROM questions JOIN users ON (users.id = questions.user_id) WHERE questions.question= :question', {'question': question}
+                        ).fetchall()
+            already_submit = session.get('user_id') in [result3.id for result3 in result3]
+        #    already_submit = session.get('user_id') in [question.id for item in result3]
+            return render_template('questions.html', result3=result3, user_id=session.get('user_id'), logged_in=logged_in, already_submit=already_submit)
 # search for a question/
 @app.route('/question/', methods=['POST', 'GET'])
 def question():
     if session.get('user_id') is None:
-            return('Please log in to access this webpage')
+        flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
+        return render_template('Login.html', user_id=session.get('user_id'))
     else:
         if 'query' in request.args:
         # If 'query' is in request arguments, do the search and show results
+            logged_in = session.get('user_id') is not None
             query = request.args['query']
-            result = db.execute('SELECT * FROM questions WHERE question ILIKE :pattern ORDER BY id DESC',
+            result = db.execute('SELECT question, category, asked_on, college, matriculation_year, subject, users.id FROM questions JOIN users ON (users.id = questions.user_id) WHERE question ILIKE :pattern ORDER BY id DESC',
                             {'pattern': f'%{query}%'}).fetchall()
-
-
-            return render_template('questions.html', has_query=True, result=result, user_id=session.get('user_id'))
+            already_submit = session.get('user_id') in [result.id for result in result]
+            return render_template('questions.html', has_query=True, result=result, user_id=session.get('user_id'), logged_in=logged_in)
         else:
         # If not, just show all the questions that exist
-
-            allresults = db.execute('SELECT * FROM questions ORDER BY id DESC').fetchall()
-
-
+            #if request.method == 'GET':
+                logged_in = session.get('user_id') is not None
+                allresults =db.execute('SELECT question, category, asked_on, college, matriculation_year, subject, users.id FROM questions JOIN users ON (users.id = questions.user_id)'
+                                    ).fetchall()
+                print(allresults)
+                already_submit = session.get('user_id') in [allresults.id for allresults in allresults]
     #    all_results= questions.query.all
-
-            return render_template('questions.html', has_query=False, allresults=allresults, user_id=session.get('user_id'))
+                return render_template('questions.html', has_query=False, allresults=allresults, user_id=session.get('user_id'), logged_in=logged_in)
 #    def viewquestion():
 #        return 'questions'
 
@@ -197,13 +207,14 @@ def question():
 @app.route('/course/<int:course_id>/', methods=['POST', 'GET'])
 def course(course_id):
     if session.get('user_id') is None:
-            return('Please log in to access this webpage')
+        flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
+        return render_template('Login.html', user_id=session.get('user_id'))
     else:
         if request.method == 'GET':
         # If method is GET, get all reviews for this book from database
             logged_in = session.get('user_id') is not None
 
-            reviews = db.execute('SELECT rating, review, users.id, email, reviewdate, review_on FROM reviews JOIN users ON (users.id = reviews.user_id) WHERE reviews.course_id = :course_id;', {'course_id': course_id}).fetchall()
+            reviews = db.execute('SELECT rating, review, users.id, email, reviewdate, review_on, college, matriculation_year FROM reviews JOIN users ON (users.id = reviews.user_id) WHERE reviews.course_id = :course_id;', {'course_id': course_id}).fetchall()
             already_submit = session.get('user_id') in [review.id for review in reviews]
 
             course_name = db.execute('SELECT * FROM subjects WHERE id = :course_id', {'course_id': course_id}).fetchone()
@@ -213,8 +224,7 @@ def course(course_id):
         #gr_data=gr_data)
         elif request.method == 'POST':
         # If method is POST, save new review in database
-            if session.get('user_id') is None:
-                return('Please log in to access this webpage')
+
                 rating = request.form.get('rating')
                 review_text = request.form.get('review')
                 reviewdate = request.form.get('reviewdate')
@@ -223,14 +233,12 @@ def course(course_id):
                    {'rating': rating, 'review': review_text, 'reviewdate': reviewdate, 'user_id': session.get('user_id'), 'course_id': course_id, 'review_on':review_on})
                 db.commit()
                 return redirect(url_for('course', course_id=course_id))
-@app.route('/questions/')
-def questions():
-  return 'Questions'
 
 @app.route('/answers/<int:question_id>/', methods=['POST', 'GET'])
 def answers(question_id):
     if session.get('user_id') is None:
-            return('Please log in to access this webpage')
+        flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
+        return render_template('Login.html', user_id=session.get('user_id'))
     else:
         if request.method == 'GET':
         # If method is GET, get all reviews for this book from database
@@ -247,8 +255,7 @@ def answers(question_id):
         #gr_data=gr_data)
         elif request.method == 'POST':
         # If method is POST, save new review in database
-            if session.get('user_id') is None:
-                return('Please log in to access this webpage')
+
                 answer = request.form.get('answer')
                 answered_on=datetime.datetime.now().strftime("%d-%b-%Y at %H:%M")
         #SELECT answered_on, TO_CHAR(NOW() :: TIMESTAMP, 'hh:mm dd-mm-yy'); come back to this!! this code should
@@ -262,7 +269,8 @@ def answers(question_id):
 @app.route('/departments/', methods=['POST', 'GET'])
 def departments():
     if session.get('user_id') is None:
-            return('Please log in to access this webpage')
+        flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
+        return render_template('Login.html', user_id=session.get('user_id'))
     else:
         if 'query' in request.args:
         # If 'query' is in request arguments, do the search and show results
@@ -286,13 +294,14 @@ def departments():
 @app.route('/departmentreviews/<int:department_id>/', methods=['POST', 'GET'])
 def departmentreviews(department_id):
     if session.get('user_id') is None:
-            return('Please log in to access this webpage')
+        flash('theOXREVIEW is for students of Oxford only. Please log in to access this webpage.')
+        return render_template('Login.html', user_id=session.get('user_id'))
     else:
         if request.method == 'GET':
         # If method is GET, get all reviews for this book from database
             logged_in = session.get('user_id') is not None
 
-            departmentreviews = db.execute('SELECT departmentreview, rating, users.id, department_id, college, matriculation_year, subject FROM departmentreviews JOIN users ON (users.id =departmentreviews.user_id) WHERE departmentreviews.department_id = :department_id;', {'department_id': department_id}).fetchall()
+            departmentreviews = db.execute('SELECT departmentreview, rating, users.id, department_id, college, matriculation_year, subject, departmentreview_on FROM departmentreviews JOIN users ON (users.id =departmentreviews.user_id) WHERE departmentreviews.department_id = :department_id;', {'department_id': department_id}).fetchall()
             already_submit = session.get('user_id') in [departmentreview.id for departmentreview in departmentreviews]
 
             department_name = db.execute('SELECT * FROM departments WHERE id = :department_id', {'department_id': department_id}).fetchone()
@@ -303,18 +312,17 @@ def departmentreviews(department_id):
         #gr_data=gr_data)
         elif request.method == 'POST':
         # If method is POST, save new review in database
-            if session.get('user_id') is None:
-                return('Please log in to access this webpage')
-                departmentreview = request.form.get('departmentreview')
-                departmentreviewdate = request.form.get('departmentreviewdate')
-                rating= request.form.get('rating')
-                departmentreview_on=datetime.datetime.now().strftime("%d-%b-%Y at %H:%M")
 
-                db.execute('INSERT INTO departmentreviews (departmentreview, departmentreviewdate, rating, user_id, department_id, departmentreview_on) VALUES (:departmentreview, :departmentreviewdate, :rating, :user_id, :department_id, :departmentreview_on)',
+            departmentreview = request.form.get('departmentreview')
+            departmentreviewdate = request.form.get('departmentreviewdate')
+            rating= request.form.get('rating')
+            departmentreview_on=datetime.datetime.now().strftime("%d-%b-%Y at %H:%M")
+
+            db.execute('INSERT INTO departmentreviews (departmentreview, departmentreviewdate, rating, user_id, department_id, departmentreview_on) VALUES (:departmentreview, :departmentreviewdate, :rating, :user_id, :department_id, :departmentreview_on)',
                    {'departmentreview': departmentreview, 'departmentreviewdate': departmentreviewdate, 'rating': rating, 'user_id': session.get('user_id'), 'department_id': department_id, 'departmentreview_on': departmentreview_on})
-                db.commit()
+            db.commit()
 
-                return redirect(url_for('departmentreviews', department_id=department_id))
+            return redirect(url_for('departmentreviews', department_id=department_id))
 
 
 

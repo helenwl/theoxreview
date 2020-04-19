@@ -105,9 +105,7 @@ def logout():
 # Search route for subject courses
 @app.route('/subject/', methods=['POST', 'GET'])
 def subject():
-        if session.get('user_id') is None:
-            return('Please log in to access this webpage')
-        else:
+
             if 'query' in request.args:
         # If 'query' is in request arguments, do the search and show results
                 query = request.args['query']
@@ -123,9 +121,8 @@ def subject():
 
 @app.route('/addsubject/', methods=['POST', 'GET'])
 def addsubject():
-    if session.get('user_id') is None:
-            return('Please log in to access this webpage')
-    else:
+
+
         if request.method == 'POST':
 
             logged_in = session.get('user_id') is not None
@@ -146,9 +143,7 @@ def addsubject():
 #post a question and add it to the question table
 @app.route('/postquestion/', methods=['POST', 'GET'])
 def postquestion():
-    if session.get('user_id') is None:
-            return('Please log in to access this webpage')
-    else:
+
         if request.method == 'POST':
 
             logged_in = session.get('user_id') is not None
@@ -169,9 +164,7 @@ def postquestion():
 # search for a question/
 @app.route('/question/', methods=['POST', 'GET'])
 def question():
-    if session.get('user_id') is None:
-            return('Please log in to access this webpage')
-    else:
+
         if 'query' in request.args:
         # If 'query' is in request arguments, do the search and show results
             query = request.args['query']
@@ -196,9 +189,7 @@ def question():
 
 @app.route('/course/<int:course_id>/', methods=['POST', 'GET'])
 def course(course_id):
-    if session.get('user_id') is None:
-            return('Please log in to access this webpage')
-    else:
+
         if request.method == 'GET':
         # If method is GET, get all reviews for this book from database
             logged_in = session.get('user_id') is not None
@@ -213,8 +204,7 @@ def course(course_id):
         #gr_data=gr_data)
         elif request.method == 'POST':
         # If method is POST, save new review in database
-            if session.get('user_id') is None:
-                return('Please log in to access this webpage')
+
                 rating = request.form.get('rating')
                 review_text = request.form.get('review')
                 reviewdate = request.form.get('reviewdate')
@@ -229,9 +219,7 @@ def questions():
 
 @app.route('/answers/<int:question_id>/', methods=['POST', 'GET'])
 def answers(question_id):
-    if session.get('user_id') is None:
-            return('Please log in to access this webpage')
-    else:
+
         if request.method == 'GET':
         # If method is GET, get all reviews for this book from database
             logged_in = session.get('user_id') is not None
@@ -260,9 +248,7 @@ def answers(question_id):
 
 @app.route('/departments/', methods=['POST', 'GET'])
 def departments():
-    if session.get('user_id') is None:
-            return('Please log in to access this webpage')
-    else:
+
         if 'query' in request.args:
         # If 'query' is in request arguments, do the search and show results
             query = request.args['query']
@@ -284,9 +270,7 @@ def departments():
 
 @app.route('/departmentreviews/<int:department_id>/', methods=['POST', 'GET'])
 def departmentreviews(department_id):
-    if session.get('user_id') is None:
-            return('Please log in to access this webpage')
-    else:
+
         if request.method == 'GET':
         # If method is GET, get all reviews for this book from database
             logged_in = session.get('user_id') is not None
@@ -302,8 +286,7 @@ def departmentreviews(department_id):
         #gr_data=gr_data)
         elif request.method == 'POST':
         # If method is POST, save new review in database
-            if session.get('user_id') is None:
-                return('Please log in to access this webpage')
+
                 departmentreview = request.form.get('departmentreview')
                 departmentreviewdate = request.form.get('departmentreviewdate')
                 rating= request.form.get('rating')
